@@ -11,7 +11,7 @@ This example shows how secrets stored in Terraform outputs can be exfiltrated in
 
 ## Why this is dangerous
 
-- **Secrets in outputs:** Putting secrets in Terraform outputs (or in state and exposing them via outputs) makes them available to anyone or any step that can run `terraform output` in that environment (e.g. every step in the same job).
+- **Secrets in the job:** Passing secrets into the job for Terraform (e.g. as `TF_VAR_*`) makes them available to every step in that job. The same applies to secrets in Terraform outputs after an apply—any step can run `terraform output` and read them.
 - **Log masking is not a security boundary:** GitHub redacts whole secret values in logs. Printing the value with spaces (or other characters) between each character prevents the redaction pattern from matching, so the full secret can be recovered from the log.
 
 ## Mitigations
