@@ -17,7 +17,7 @@ This repo showcases **two GitHub Actions security issues** for educational use o
 ## How to run
 
 - Push to the default branch or trigger the workflows via **Actions → workflow → Run workflow**.
-- For the **workflow-secrets** demo: add a repo secret named `DEMO_REPO_SECRET` in **Settings → Secrets and variables → Actions** with a **dummy value** (e.g. `fake_demo_secret`) so the workflow can run.
+- For the **workflow-secrets** demo: add a repo secret named `TOP_SECRET_SECRET` in **Settings → Secrets and variables → Actions** with a **dummy value** (e.g. `fake_demo_secret`) so the workflow can run.
 
 ## Disclaimer and safe usage
 

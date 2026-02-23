@@ -7,7 +7,7 @@ This example shows how an attacker who can add or modify workflow files can expo
 - **Workflow:** [.github/workflows/workflow-secrets-demo.yml](../.github/workflows/workflow-secrets-demo.yml) has steps that:
   1. Echo `secrets.GITHUB_TOKEN` directly (GitHub redacts it).
   2. Echo the same token with a space between each character so redaction does not match and the token is visible in the log.
-  3. Do the same for a repo secret `DEMO_REPO_SECRET` (you must add this in Settings → Secrets with a dummy value to run the demo).
+  3. Do the same for a repo secret `TOP_SECRET_SECRET` (you must add this in Settings → Secrets with a dummy value to run the demo).
 
 ## Threat model
 
@@ -33,5 +33,5 @@ GitHub Actions masks secrets by matching the **exact** secret value in log outpu
 ## Safe usage
 
 - Use a **dedicated test repo** and only **dummy values** for any repo (or org) secrets.
-- Add a repo secret named `DEMO_REPO_SECRET` with a fake value (e.g. `fake_repo_secret_123`) in Settings → Secrets so the workflow runs without errors.
+- Add a repo secret named `TOP_SECRET_SECRET` with a fake value (e.g. `fake_repo_secret_123`) in Settings → Secrets so the workflow runs without errors.
 - Do not run this workflow on repos that contain real secrets.
