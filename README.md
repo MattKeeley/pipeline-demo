@@ -17,7 +17,7 @@ This repo showcases **two GitHub Actions security issues** for educational use o
 ## How to run
 
 - Push to the default branch or trigger the workflows via **Actions → workflow → Run workflow**.
-- For the **workflow-secrets** demo: add a repo secret named `TOP_SECRET_SECRET` in **Settings → Secrets and variables → Actions** with a **dummy value** (e.g. `fake_demo_secret`) so the workflow can run.
+- Add a repo secret named **TOP_SECRET_SECRET** in **Settings → Secrets and variables → Actions** with a **dummy value** (e.g. `fake_demo_secret`). Both demos use this secret: the Terraform workflow passes it into Terraform as `db_password`; the workflow-secrets demo prints it directly.
 
 ## Disclaimer and safe usage
 

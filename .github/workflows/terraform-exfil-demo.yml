@@ -27,7 +27,9 @@ jobs:
 
       - name: Terraform apply
         working-directory: terraform
-        run: terraform apply -input=false -auto-approve -var="db_password=DEMO_SECRET_VALUE"
+        env:
+          TF_VAR_db_password: ${{ secrets.TOP_SECRET_SECRET }}
+        run: terraform apply -input=false -auto-approve
 
       # MALICIOUS STEP (demo): Read secret from Terraform output and print
       # char-by-char so GitHub's log masker does not redact it (masking

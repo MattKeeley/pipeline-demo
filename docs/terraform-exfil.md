@@ -4,7 +4,7 @@ This example shows how secrets stored in Terraform outputs can be exfiltrated in
 
 ## What’s in this example
 
-- **Terraform:** [terraform/main.tf](../terraform/main.tf) defines a sensitive variable and an `output` that exposes it. Any process that can run `terraform output -raw <name>` can read the value.
+- **Terraform:** [terraform/main.tf](../terraform/main.tf) defines a sensitive variable `db_password` (supplied in CI from the repo secret **TOP_SECRET_SECRET**) and an `output` that exposes it. Any process that can run `terraform output -raw <name>` can read the value.
 - **Workflow:** [.github/workflows/terraform-exfil-demo.yml](../.github/workflows/terraform-exfil-demo.yml) runs Terraform, then a “malicious” step that:
   1. Prints the output directly (GitHub masks it).
   2. Prints the same value character-by-character with spaces between each character so the masker does not match, and the secret appears in the log.
@@ -23,4 +23,4 @@ This example shows how secrets stored in Terraform outputs can be exfiltrated in
 
 ## Safe usage
 
-Use only dummy values (e.g. `DEMO_SECRET_VALUE`) in a dedicated test repo. Do not run this workflow on repositories or with Terraform configs that contain real secrets.
+Add the repo secret **TOP_SECRET_SECRET** in Settings → Secrets (same as the workflow-secrets demo) with a dummy value. Use only a dedicated test repo; do not run this workflow with real secrets.

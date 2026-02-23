@@ -2,9 +2,8 @@
 # This config illustrates how secrets in outputs can be exfiltrated in CI.
 
 variable "db_password" {
-  description = "Sensitive value (use dummy value for demo)"
+  description = "Sensitive value - in CI, pass from repo secret TOP_SECRET_SECRET"
   type        = string
-  default     = "DEMO_SECRET_VALUE"
   sensitive   = true
 }
 
