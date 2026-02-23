@@ -4,10 +4,8 @@ This example shows how secrets stored in Terraform outputs can be exfiltrated in
 
 ## What’s in this example
 
-- **Terraform:** [terraform/main.tf](../terraform/main.tf) defines a sensitive variable `db_password` (supplied in CI from the repo secret **TOP_SECRET_SECRET**) and an `output` that exposes it. Any process that can run `terraform output -raw <name>` can read the value.
-- **Workflow:** [.github/workflows/terraform-exfil-demo.yml](../.github/workflows/terraform-exfil-demo.yml) runs Terraform, then a “malicious” step that:
-  1. Prints the output directly (GitHub masks it).
-  2. Prints the same value character-by-character with spaces between each character so the masker does not match, and the secret appears in the log.
+- **Terraform:** [terraform/main.tf](../terraform/main.tf) defines a sensitive variable `db_password` and an `output` that exposes it. A state file ([terraform/terraform.tfstate](../terraform/terraform.tfstate)) is committed so `terraform output` works after `terraform plan` (output reads from state).
+- **Workflow:** [.github/workflows/terraform-exfil-demo.yml](../.github/workflows/terraform-exfil-demo.yml) runs `terraform plan`. A later step runs `terraform output -raw db_password` and prints it (masked), then pipes it through char-by-char so the value appears in the log unmasked.
 
 ## Why this is dangerous
 
