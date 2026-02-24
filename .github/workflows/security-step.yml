@@ -1,0 +1,13 @@
+# helloworld
+name: security-step
+on:
+  pull_request:
+  pull_request_target:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
