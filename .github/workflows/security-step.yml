@@ -1,0 +1,9 @@
+# helloworld
+name: security-step
+on:
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
